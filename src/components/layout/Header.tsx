@@ -1,13 +1,13 @@
 import { useVisualizationStore } from '../../store/visualizationStore';
 import { useAPIStore } from '../../store/apiStore';
-import type { ViewMode } from '../../types';
+import type { ViewMode, AppPage } from '../../types';
 
 interface HeaderProps {
   onOpenSettings: () => void;
 }
 
 export function Header({ onOpenSettings }: HeaderProps) {
-  const { viewMode, update } = useVisualizationStore();
+  const { viewMode, currentPage, update } = useVisualizationStore();
   const { isConfigured, config } = useAPIStore();
 
   const viewModes: { value: ViewMode; label: string }[] = [
@@ -16,15 +16,33 @@ export function Header({ onOpenSettings }: HeaderProps) {
     { value: 'expert', label: 'Expert' },
   ];
 
+  const pages: { value: AppPage; label: string }[] = [
+    { value: 'pipeline', label: 'LLM Pipeline' },
+    { value: 'agent', label: 'Agent' },
+  ];
+
   return (
     <header className="h-16 bg-slate-800 border-b border-slate-700 px-6 flex items-center justify-between">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         <h1 className="text-xl font-bold text-white">
           LLM Visualizer
         </h1>
-        <span className="text-sm text-slate-400">
-          Explore how language models work
-        </span>
+
+        <div className="flex bg-slate-700/50 rounded-lg p-1">
+          {pages.map((page) => (
+            <button
+              key={page.value}
+              onClick={() => update({ currentPage: page.value })}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                currentPage === page.value
+                  ? 'bg-slate-600 text-white'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-600/50'
+              }`}
+            >
+              {page.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex items-center gap-4">
