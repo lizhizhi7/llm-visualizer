@@ -9,7 +9,7 @@ export type ViewMode = 'simplified' | 'detailed' | 'expert';
 
 export type AppPage = 'pipeline' | 'agent';
 
-export type AgentSection = 'overview' | 'tools' | 'react-loop' | 'memory' | 'planning' | 'demo';
+export type AgentSection = 'overview' | 'tools' | 'react-loop' | 'memory' | 'planning' | 'fine-tuning' | 'demo';
 
 export type TokenType = 'word' | 'subword' | 'punctuation' | 'number' | 'special';
 

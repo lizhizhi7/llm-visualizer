@@ -6,6 +6,7 @@ import { ToolsSection } from './sections/ToolsSection';
 import { ReactLoopSection } from './sections/ReactLoopSection';
 import { MemorySection } from './sections/MemorySection';
 import { PlanningSection } from './sections/PlanningSection';
+import { FineTuningSection } from './sections/FineTuningSection';
 import { DemoSection } from './sections/DemoSection';
 
 const sectionComponents = {
@@ -14,6 +15,7 @@ const sectionComponents = {
   'react-loop': ReactLoopSection,
   memory: MemorySection,
   planning: PlanningSection,
+  'fine-tuning': FineTuningSection,
   demo: DemoSection,
 };
 

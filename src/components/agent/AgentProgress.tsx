@@ -8,6 +8,7 @@ const sections: { id: AgentSection; label: string }[] = [
   { id: 'react-loop', label: 'ReAct' },
   { id: 'memory', label: 'Memory' },
   { id: 'planning', label: 'Planning' },
+  { id: 'fine-tuning', label: 'Fine-Tune' },
   { id: 'demo', label: 'Demo' },
 ];
 
@@ -54,7 +55,7 @@ export function AgentProgress() {
             </div>
 
             {index < sections.length - 1 && (
-              <div className="w-8 mx-1">
+              <div className="w-6 mx-0.5">
                 <motion.div
                   initial={false}
                   animate={{
