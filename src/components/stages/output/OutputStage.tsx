@@ -163,6 +163,43 @@ export function OutputStage() {
           </div>
         </motion.div>
       )}
+
+      {viewMode !== 'simplified' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-slate-800/50 rounded-xl border border-slate-700 p-6"
+        >
+          <h3 className="font-semibold mb-3 flex items-center gap-2">
+            <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Context During Generation
+          </h3>
+          <div className="text-sm text-slate-400 space-y-2">
+            <p>
+              <strong className="text-slate-300">Growing Context:</strong> As each token is generated, it becomes part of the context for the next prediction. The context window fills up: [prompt] → [prompt + token1] → [prompt + token1 + token2] → ...
+            </p>
+            <p>
+              <strong className="text-slate-300">Context Limit:</strong> When the context window is full, the model must either stop or use strategies like truncating old tokens. This is why long conversations may "forget" earlier messages.
+            </p>
+            {viewMode === 'expert' && (
+              <>
+                <p>
+                  <strong className="text-slate-300">Sliding Window:</strong> Some models use a sliding window approach—keeping only the most recent N tokens. This trades off full context access for constant memory usage.
+                </p>
+                <p>
+                  <strong className="text-slate-300">System Prompts:</strong> In chat applications, system instructions stay at the beginning of the context and are re-sent every turn. They're not "remembered" by the model—they're literally present in every request.
+                </p>
+                <p>
+                  <strong className="text-slate-300">RAG (Retrieval-Augmented Generation):</strong> Since models can't remember everything, RAG systems retrieve relevant information and inject it into the context just-in-time, effectively giving models access to external knowledge bases.
+                </p>
+              </>
+            )}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

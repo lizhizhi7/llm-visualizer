@@ -137,6 +137,43 @@ export function TransformerStage() {
           </div>
         </motion.div>
       )}
+
+      {viewMode !== 'simplified' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="bg-slate-800/50 rounded-xl border border-slate-700 p-6"
+        >
+          <h3 className="font-semibold mb-3 flex items-center gap-2">
+            <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+            </svg>
+            Attention as Memory
+          </h3>
+          <div className="text-sm text-slate-400 space-y-2">
+            <p>
+              <strong className="text-slate-300">How LLMs "Remember":</strong> Attention IS the memory mechanism. When predicting the next word, the model can attend to any previous token in the context window—this is how it "remembers" earlier parts of the text.
+            </p>
+            <p>
+              <strong className="text-slate-300">Causal Masking:</strong> The triangular pattern you see (upper-right is dark) enforces that each token can only attend to tokens that came before it—not future tokens. This is crucial for text generation.
+            </p>
+            {viewMode === 'expert' && (
+              <>
+                <p>
+                  <strong className="text-slate-300">KV Cache:</strong> During generation, the model caches the Key and Value matrices for all previous tokens. This avoids recomputing them for each new token, reducing generation from O(n²) to O(n) per token. This is why models can generate quickly despite having billions of parameters.
+                </p>
+                <p>
+                  <strong className="text-slate-300">Memory Bottleneck:</strong> Attention scores require O(n²) memory for n tokens, which is why very long contexts (100K+ tokens) require specialized techniques like sliding window attention, sparse attention, or linear attention approximations.
+                </p>
+                <p>
+                  <strong className="text-slate-300">What's NOT Stored:</strong> LLMs don't have explicit memory slots or databases. Knowledge comes from two sources: (1) weights learned during training (static), and (2) the current context window (dynamic but temporary).
+                </p>
+              </>
+            )}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

@@ -128,6 +128,40 @@ export function InputStage() {
           </div>
         </motion.div>
       )}
+
+      {viewMode !== 'simplified' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="bg-slate-800/50 rounded-xl border border-slate-700 p-6"
+        >
+          <h3 className="font-semibold mb-3 flex items-center gap-2">
+            <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+            </svg>
+            Context Window & Memory
+          </h3>
+          <div className="text-sm text-slate-400 space-y-2">
+            <p>
+              <strong className="text-slate-300">Context Window:</strong> LLMs have a fixed maximum number of tokens they can process at once (e.g., 4K, 8K, 128K, or 200K tokens). This is the model's "working memory" for each request.
+            </p>
+            <p>
+              <strong className="text-slate-300">No Persistent Memory:</strong> Unlike humans, LLMs don't retain information between conversations. Each request starts fresh—the model only "remembers" what's in the current context window.
+            </p>
+            {viewMode === 'expert' && (
+              <>
+                <p>
+                  <strong className="text-slate-300">Memory Cost:</strong> The attention mechanism scales quadratically with context length (O(n²)), making very long contexts computationally expensive. This is why context windows have limits.
+                </p>
+                <p>
+                  <strong className="text-slate-300">Chat History:</strong> In conversations, the entire chat history must be re-sent each turn. The model doesn't "remember" previous messages—they're simply included in the new context.
+                </p>
+              </>
+            )}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

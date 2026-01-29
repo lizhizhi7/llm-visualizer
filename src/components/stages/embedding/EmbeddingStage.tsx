@@ -138,6 +138,40 @@ export function EmbeddingStage() {
           </div>
         </motion.div>
       )}
+
+      {viewMode !== 'simplified' && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="bg-slate-800/50 rounded-xl border border-slate-700 p-6"
+        >
+          <h3 className="font-semibold mb-3 flex items-center gap-2">
+            <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Positional Encoding & Context Length
+          </h3>
+          <div className="text-sm text-slate-400 space-y-2">
+            <p>
+              <strong className="text-slate-300">Why Position Matters:</strong> Positional encodings tell the model where each token is in the sequence. Without them, "the cat sat on the mat" and "mat the on sat cat the" would be identical to the model.
+            </p>
+            <p>
+              <strong className="text-slate-300">Context Limits:</strong> The positional encoding scheme determines the maximum context length. Models are trained with a fixed maximum position (e.g., 2048, 4096, 128K), and may struggle with positions they haven't seen during training.
+            </p>
+            {viewMode === 'expert' && (
+              <>
+                <p>
+                  <strong className="text-slate-300">RoPE (Rotary Position Embedding):</strong> Modern models like LLaMA use RoPE, which encodes position by rotating the embedding vectors. This allows for better extrapolation to longer sequences than absolute positional encodings.
+                </p>
+                <p>
+                  <strong className="text-slate-300">ALiBi (Attention with Linear Biases):</strong> An alternative approach that adds position-dependent biases directly to attention scores, allowing unlimited context length without retraining.
+                </p>
+              </>
+            )}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
