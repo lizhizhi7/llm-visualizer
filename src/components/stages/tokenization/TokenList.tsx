@@ -8,7 +8,7 @@ interface TokenListProps {
 }
 
 export function TokenList({ tokens }: TokenListProps) {
-  const { selectedToken, setSelectedToken, viewMode } = useVisualizationStore();
+  const { selectedToken, viewMode, update } = useVisualizationStore();
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -22,7 +22,7 @@ export function TokenList({ tokens }: TokenListProps) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.02 }}
-            onClick={() => setSelectedToken(isSelected ? null : token.id)}
+            onClick={() => update({ selectedToken: isSelected ? null : token.id })}
             className={`relative group cursor-pointer`}
           >
             <div

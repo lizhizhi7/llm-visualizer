@@ -3,16 +3,8 @@ import { motion } from 'framer-motion';
 import { usePipelineStore } from '../../store/pipelineStore';
 
 export function PlaybackControls() {
-  const {
-    isPlaying,
-    setIsPlaying,
-    playbackSpeed,
-    setPlaybackSpeed,
-    nextStep,
-    prevStep,
-    reset,
-    currentStage,
-  } = usePipelineStore();
+  const { isPlaying, playbackSpeed, nextStep, prevStep, reset, currentStage, update } =
+    usePipelineStore();
 
   const intervalRef = useRef<number | null>(null);
 
@@ -34,9 +26,9 @@ export function PlaybackControls() {
 
   useEffect(() => {
     if (currentStage === 'output') {
-      setIsPlaying(false);
+      update({ isPlaying: false });
     }
-  }, [currentStage, setIsPlaying]);
+  }, [currentStage, update]);
 
   const speeds = [0.5, 1, 2, 4];
 
@@ -58,7 +50,7 @@ export function PlaybackControls() {
         </button>
 
         <button
-          onClick={() => setIsPlaying(!isPlaying)}
+          onClick={() => update({ isPlaying: !isPlaying })}
           className={`p-3 rounded-lg transition-colors ${
             isPlaying ? 'bg-amber-500 hover:bg-amber-600' : 'bg-indigo-500 hover:bg-indigo-600'
           }`}
@@ -94,7 +86,7 @@ export function PlaybackControls() {
           {speeds.map((speed) => (
             <button
               key={speed}
-              onClick={() => setPlaybackSpeed(speed)}
+              onClick={() => update({ playbackSpeed: speed })}
               className={`px-2 py-1 rounded text-sm font-medium transition-colors ${
                 playbackSpeed === speed
                   ? 'bg-indigo-500 text-white'

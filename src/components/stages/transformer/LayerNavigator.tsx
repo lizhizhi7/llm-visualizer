@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { usePipelineStore } from '../../../store/pipelineStore';
 
 export function LayerNavigator() {
-  const { transformerLayers, currentLayer, setCurrentLayer } = usePipelineStore();
+  const { transformerLayers, currentLayer, update } = usePipelineStore();
 
   return (
     <motion.div
@@ -19,7 +19,7 @@ export function LayerNavigator() {
 
       <div className="flex items-center gap-2">
         <button
-          onClick={() => setCurrentLayer(Math.max(0, currentLayer - 1))}
+          onClick={() => update({ currentLayer: Math.max(0, currentLayer - 1) })}
           disabled={currentLayer === 0}
           className="p-2 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
         >
@@ -32,7 +32,7 @@ export function LayerNavigator() {
           {transformerLayers.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentLayer(index)}
+              onClick={() => update({ currentLayer: index })}
               className={`flex-1 h-2 rounded-full transition-colors ${
                 index === currentLayer
                   ? 'bg-indigo-500'
@@ -46,7 +46,7 @@ export function LayerNavigator() {
         </div>
 
         <button
-          onClick={() => setCurrentLayer(Math.min(transformerLayers.length - 1, currentLayer + 1))}
+          onClick={() => update({ currentLayer: Math.min(transformerLayers.length - 1, currentLayer + 1) })}
           disabled={currentLayer === transformerLayers.length - 1}
           className="p-2 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
         >

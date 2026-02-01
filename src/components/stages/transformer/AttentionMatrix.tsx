@@ -1,7 +1,7 @@
 import { useRef, useEffect, useMemo } from 'react';
 import * as d3 from 'd3';
-import type { Token } from '../../../../types';
-import { useVisualizationStore } from '../../../../store/visualizationStore';
+import type { Token } from '../../../types';
+import { useVisualizationStore } from '../../../store/visualizationStore';
 
 interface AttentionMatrixProps {
   weights: number[][];
@@ -10,7 +10,7 @@ interface AttentionMatrixProps {
 
 export function AttentionMatrix({ weights, tokens }: AttentionMatrixProps) {
   const svgRef = useRef<SVGSVGElement>(null);
-  const { attentionThreshold, setSelectedToken, selectedToken } = useVisualizationStore();
+  const { attentionThreshold, selectedToken, update } = useVisualizationStore();
 
   const displayTokens = useMemo(() => tokens.slice(0, 15), [tokens]);
   const displayWeights = useMemo(
@@ -64,7 +64,7 @@ export function AttentionMatrix({ weights, tokens }: AttentionMatrixProps) {
             d3.select(this).attr('stroke', 'none');
           })
           .on('click', () => {
-            setSelectedToken(selectedToken === i ? null : i);
+            update({ selectedToken: selectedToken === i ? null : i });
           })
           .append('title')
           .text(
@@ -142,7 +142,7 @@ export function AttentionMatrix({ weights, tokens }: AttentionMatrixProps) {
       .attr('fill', '#94a3b8')
       .attr('font-size', '10px')
       .text('Attention Weight');
-  }, [displayWeights, displayTokens, attentionThreshold, selectedToken, setSelectedToken]);
+  }, [displayWeights, displayTokens, attentionThreshold, selectedToken, update]);
 
   return (
     <div className="flex flex-col items-center">

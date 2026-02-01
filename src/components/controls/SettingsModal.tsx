@@ -10,16 +10,8 @@ interface SettingsModalProps {
 
 export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   const { config, setConfig, clearConfig, isConfigured } = useAPIStore();
-  const {
-    showTooltips,
-    setShowTooltips,
-    show3DEmbeddings,
-    setShow3DEmbeddings,
-    animationDuration,
-    setAnimationDuration,
-    attentionThreshold,
-    setAttentionThreshold,
-  } = useVisualizationStore();
+  const { showTooltips, show3DEmbeddings, animationDuration, attentionThreshold, update } =
+    useVisualizationStore();
 
   const [localApiKey, setLocalApiKey] = useState('');
   const [activeTab, setActiveTab] = useState<'api' | 'visualization'>('api');
@@ -179,7 +171,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                       <div className="text-sm text-slate-400">Display explanatory tooltips</div>
                     </div>
                     <button
-                      onClick={() => setShowTooltips(!showTooltips)}
+                      onClick={() => update({ showTooltips: !showTooltips })}
                       className={`w-12 h-6 rounded-full transition-colors ${
                         showTooltips ? 'bg-indigo-500' : 'bg-slate-600'
                       }`}
@@ -198,7 +190,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                       <div className="text-sm text-slate-400">Show 3D embedding visualization</div>
                     </div>
                     <button
-                      onClick={() => setShow3DEmbeddings(!show3DEmbeddings)}
+                      onClick={() => update({ show3DEmbeddings: !show3DEmbeddings })}
                       className={`w-12 h-6 rounded-full transition-colors ${
                         show3DEmbeddings ? 'bg-indigo-500' : 'bg-slate-600'
                       }`}
@@ -222,7 +214,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                       max="2"
                       step="0.1"
                       value={animationDuration}
-                      onChange={(e) => setAnimationDuration(parseFloat(e.target.value))}
+                      onChange={(e) => update({ animationDuration: parseFloat(e.target.value) })}
                       className="w-full"
                     />
                   </div>
@@ -238,7 +230,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                       max="0.5"
                       step="0.01"
                       value={attentionThreshold}
-                      onChange={(e) => setAttentionThreshold(parseFloat(e.target.value))}
+                      onChange={(e) => update({ attentionThreshold: parseFloat(e.target.value) })}
                       className="w-full"
                     />
                     <p className="mt-1 text-xs text-slate-400">

@@ -5,13 +5,8 @@ import { TokenList } from './TokenList';
 import { MergeAnimation } from './MergeAnimation';
 
 export function TokenizationStage() {
-  const {
-    inputText,
-    tokenizationSteps,
-    currentTokenizationStep,
-    setCurrentTokenizationStep,
-    tokens,
-  } = usePipelineStore();
+  const { inputText, tokenizationSteps, currentTokenizationStep, tokens, update } =
+    usePipelineStore();
 
   const { viewMode } = useVisualizationStore();
 
@@ -56,7 +51,7 @@ export function TokenizationStage() {
             </h3>
             <div className="flex gap-2">
               <button
-                onClick={() => setCurrentTokenizationStep(Math.max(0, currentTokenizationStep - 1))}
+                onClick={() => update({ currentTokenizationStep: Math.max(0, currentTokenizationStep - 1) })}
                 disabled={currentTokenizationStep === 0}
                 className="px-3 py-1 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm"
               >
@@ -64,9 +59,9 @@ export function TokenizationStage() {
               </button>
               <button
                 onClick={() =>
-                  setCurrentTokenizationStep(
-                    Math.min(tokenizationSteps.length - 1, currentTokenizationStep + 1)
-                  )
+                  update({
+                    currentTokenizationStep: Math.min(tokenizationSteps.length - 1, currentTokenizationStep + 1),
+                  })
                 }
                 disabled={isComplete}
                 className="px-3 py-1 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed rounded text-sm"

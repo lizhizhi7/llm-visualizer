@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import type { Token, AttentionHead } from '../../../../types';
+import type { Token, AttentionHead } from '../../../types';
 
 interface MultiHeadGridProps {
   heads: AttentionHead[];

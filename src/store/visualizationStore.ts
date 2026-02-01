@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { ViewMode } from '../types';
 
-interface VisualizationStore {
+interface VisualizationState {
   viewMode: ViewMode;
   showAttentionAnimation: boolean;
   attentionThreshold: number;
@@ -10,15 +10,10 @@ interface VisualizationStore {
   show3DEmbeddings: boolean;
   showTooltips: boolean;
   animationDuration: number;
+}
 
-  setViewMode: (mode: ViewMode) => void;
-  setShowAttentionAnimation: (show: boolean) => void;
-  setAttentionThreshold: (threshold: number) => void;
-  setSelectedToken: (token: number | null) => void;
-  setHighlightedTokens: (tokens: number[]) => void;
-  setShow3DEmbeddings: (show: boolean) => void;
-  setShowTooltips: (show: boolean) => void;
-  setAnimationDuration: (duration: number) => void;
+interface VisualizationStore extends VisualizationState {
+  update: (state: Partial<VisualizationState>) => void;
 }
 
 export const useVisualizationStore = create<VisualizationStore>((set) => ({
@@ -31,12 +26,5 @@ export const useVisualizationStore = create<VisualizationStore>((set) => ({
   showTooltips: true,
   animationDuration: 0.5,
 
-  setViewMode: (mode) => set({ viewMode: mode }),
-  setShowAttentionAnimation: (show) => set({ showAttentionAnimation: show }),
-  setAttentionThreshold: (threshold) => set({ attentionThreshold: threshold }),
-  setSelectedToken: (token) => set({ selectedToken: token }),
-  setHighlightedTokens: (tokens) => set({ highlightedTokens: tokens }),
-  setShow3DEmbeddings: (show) => set({ show3DEmbeddings: show }),
-  setShowTooltips: (show) => set({ showTooltips: show }),
-  setAnimationDuration: (duration) => set({ animationDuration: duration }),
+  update: (partial) => set(partial),
 }));

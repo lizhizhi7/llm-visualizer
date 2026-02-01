@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { usePipelineStore } from '../../store/pipelineStore';
 
 export function ParameterPanel() {
-  const { generationConfig, setGenerationConfig } = usePipelineStore();
+  const { generationConfig, updateConfig } = usePipelineStore();
 
   return (
     <motion.div
@@ -25,7 +25,7 @@ export function ParameterPanel() {
           max="2"
           step="0.05"
           value={generationConfig.temperature}
-          onChange={(e) => setGenerationConfig({ temperature: parseFloat(e.target.value) })}
+          onChange={(e) => updateConfig({ temperature: parseFloat(e.target.value) })}
           className="w-full"
         />
         <p className="mt-1 text-xs text-slate-500">
@@ -44,7 +44,7 @@ export function ParameterPanel() {
           max="100"
           step="1"
           value={generationConfig.topK}
-          onChange={(e) => setGenerationConfig({ topK: parseInt(e.target.value) })}
+          onChange={(e) => updateConfig({ topK: parseInt(e.target.value) })}
           className="w-full"
         />
         <p className="mt-1 text-xs text-slate-500">
@@ -63,7 +63,7 @@ export function ParameterPanel() {
           max="1"
           step="0.05"
           value={generationConfig.topP}
-          onChange={(e) => setGenerationConfig({ topP: parseFloat(e.target.value) })}
+          onChange={(e) => updateConfig({ topP: parseFloat(e.target.value) })}
           className="w-full"
         />
         <p className="mt-1 text-xs text-slate-500">
@@ -82,7 +82,7 @@ export function ParameterPanel() {
           max="500"
           step="1"
           value={generationConfig.maxTokens}
-          onChange={(e) => setGenerationConfig({ maxTokens: parseInt(e.target.value) })}
+          onChange={(e) => updateConfig({ maxTokens: parseInt(e.target.value) })}
           className="w-full"
         />
       </div>
