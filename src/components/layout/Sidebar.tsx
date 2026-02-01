@@ -35,7 +35,7 @@ const stages: { id: PipelineStage; label: string; icon: string; description: str
 ];
 
 export function Sidebar() {
-  const { currentStage, setCurrentStage, tokens } = usePipelineStore();
+  const { currentStage, tokens, update } = usePipelineStore();
 
   const getStageStatus = (stageId: PipelineStage): 'completed' | 'current' | 'upcoming' => {
     const stageIndex = stages.findIndex((s) => s.id === stageId);
@@ -66,7 +66,7 @@ export function Sidebar() {
           return (
             <button
               key={stage.id}
-              onClick={() => canNavigate && setCurrentStage(stage.id)}
+              onClick={() => canNavigate && update({ currentStage: stage.id })}
               disabled={!canNavigate}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left ${
                 status === 'current'

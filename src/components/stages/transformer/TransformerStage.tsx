@@ -1,14 +1,13 @@
 import { motion } from 'framer-motion';
 import { usePipelineStore } from '../../../store/pipelineStore';
 import { useVisualizationStore } from '../../../store/visualizationStore';
-import { AttentionMatrix } from './attention/AttentionMatrix';
-import { MultiHeadGrid } from './attention/MultiHeadGrid';
+import { AttentionMatrix } from './AttentionMatrix';
+import { MultiHeadGrid } from './MultiHeadGrid';
 import { FFNVisualization } from './FFNVisualization';
 import { LayerNavigator } from './LayerNavigator';
 
 export function TransformerStage() {
-  const { tokens, transformerLayers, currentLayer, currentHead, setCurrentHead } =
-    usePipelineStore();
+  const { tokens, transformerLayers, currentLayer, currentHead, update } = usePipelineStore();
   const { viewMode } = useVisualizationStore();
 
   const layer = transformerLayers[currentLayer];
@@ -54,7 +53,7 @@ export function TransformerStage() {
               {layer.attentionHeads.slice(0, 6).map((_, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setCurrentHead(idx)}
+                  onClick={() => update({ currentHead: idx })}
                   className={`w-8 h-8 rounded text-sm font-medium transition-colors ${
                     currentHead === idx
                       ? 'bg-indigo-500 text-white'
@@ -88,7 +87,7 @@ export function TransformerStage() {
           <MultiHeadGrid
             heads={layer.attentionHeads}
             selectedHead={currentHead}
-            onSelectHead={setCurrentHead}
+            onSelectHead={(head) => update({ currentHead: head })}
             tokens={tokens}
           />
         </motion.div>

@@ -8,8 +8,7 @@ import type {
   GenerationConfig,
 } from '../types';
 
-interface PipelineStore {
-  // State
+interface PipelineState {
   currentStage: PipelineStage;
   inputText: string;
   tokens: Token[];
@@ -24,26 +23,18 @@ interface PipelineStore {
   isPlaying: boolean;
   playbackSpeed: number;
   generationConfig: GenerationConfig;
+}
 
-  // Actions
-  setInputText: (text: string) => void;
-  setCurrentStage: (stage: PipelineStage) => void;
-  setTokens: (tokens: Token[]) => void;
-  setTokenizationSteps: (steps: TokenizationStep[]) => void;
-  setCurrentTokenizationStep: (step: number) => void;
-  setEmbeddings: (embeddings: number[][]) => void;
-  setTransformerLayers: (layers: TransformerLayer[]) => void;
-  setCurrentLayer: (layer: number) => void;
-  setCurrentHead: (head: number) => void;
-  setOutputProbabilities: (probs: TokenProbability[]) => void;
+interface PipelineActions {
+  update: (state: Partial<PipelineState>) => void;
+  updateConfig: (config: Partial<GenerationConfig>) => void;
   addGeneratedToken: (token: Token) => void;
-  setIsPlaying: (playing: boolean) => void;
-  setPlaybackSpeed: (speed: number) => void;
-  setGenerationConfig: (config: Partial<GenerationConfig>) => void;
   nextStep: () => void;
   prevStep: () => void;
   reset: () => void;
 }
+
+type PipelineStore = PipelineState & PipelineActions;
 
 const initialState = {
   currentStage: 'input' as PipelineStage,
@@ -70,24 +61,11 @@ const initialState = {
 export const usePipelineStore = create<PipelineStore>((set, get) => ({
   ...initialState,
 
-  setInputText: (text) => set({ inputText: text }),
-  setCurrentStage: (stage) => set({ currentStage: stage }),
-  setTokens: (tokens) => set({ tokens }),
-  setTokenizationSteps: (steps) => set({ tokenizationSteps: steps }),
-  setCurrentTokenizationStep: (step) => set({ currentTokenizationStep: step }),
-  setEmbeddings: (embeddings) => set({ embeddings }),
-  setTransformerLayers: (layers) => set({ transformerLayers: layers }),
-  setCurrentLayer: (layer) => set({ currentLayer: layer }),
-  setCurrentHead: (head) => set({ currentHead: head }),
-  setOutputProbabilities: (probs) => set({ outputProbabilities: probs }),
+  update: (partial) => set(partial),
+  updateConfig: (config) =>
+    set((state) => ({ generationConfig: { ...state.generationConfig, ...config } })),
   addGeneratedToken: (token) =>
     set((state) => ({ generatedTokens: [...state.generatedTokens, token] })),
-  setIsPlaying: (playing) => set({ isPlaying: playing }),
-  setPlaybackSpeed: (speed) => set({ playbackSpeed: speed }),
-  setGenerationConfig: (config) =>
-    set((state) => ({
-      generationConfig: { ...state.generationConfig, ...config },
-    })),
 
   nextStep: () => {
     const { currentStage, currentTokenizationStep, tokenizationSteps, currentLayer, transformerLayers } = get();

@@ -1,7 +1,7 @@
 import { usePipelineStore } from '../../../store/pipelineStore';
 
 export function SamplingControls() {
-  const { generationConfig, setGenerationConfig } = usePipelineStore();
+  const { generationConfig, updateConfig } = usePipelineStore();
 
   return (
     <div className="space-y-4">
@@ -18,7 +18,7 @@ export function SamplingControls() {
           max="2"
           step="0.05"
           value={generationConfig.temperature}
-          onChange={(e) => setGenerationConfig({ temperature: parseFloat(e.target.value) })}
+          onChange={(e) => updateConfig({ temperature: parseFloat(e.target.value) })}
           className="w-full"
         />
         <div className="flex justify-between text-xs text-slate-500 mt-1">
@@ -38,7 +38,7 @@ export function SamplingControls() {
           max="100"
           step="1"
           value={generationConfig.topK}
-          onChange={(e) => setGenerationConfig({ topK: parseInt(e.target.value) })}
+          onChange={(e) => updateConfig({ topK: parseInt(e.target.value) })}
           className="w-full"
         />
       </div>
@@ -56,7 +56,7 @@ export function SamplingControls() {
           max="1"
           step="0.05"
           value={generationConfig.topP}
-          onChange={(e) => setGenerationConfig({ topP: parseFloat(e.target.value) })}
+          onChange={(e) => updateConfig({ topP: parseFloat(e.target.value) })}
           className="w-full"
         />
       </div>
@@ -64,7 +64,7 @@ export function SamplingControls() {
       <div className="pt-2 border-t border-slate-700">
         <button
           onClick={() =>
-            setGenerationConfig({
+            updateConfig({
               temperature: 1.0,
               topK: 50,
               topP: 0.95,

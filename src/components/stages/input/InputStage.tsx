@@ -7,37 +7,26 @@ import { generateAllEmbeddings, generateAllLayers } from '../../../services/simu
 import { ExampleSelector } from './ExampleSelector';
 
 export function InputStage() {
-  const {
-    inputText,
-    setInputText,
-    setCurrentStage,
-    setTokens,
-    setTokenizationSteps,
-    setEmbeddings,
-    setTransformerLayers,
-    setCurrentTokenizationStep,
-  } = usePipelineStore();
-
+  const { inputText, update } = usePipelineStore();
   const { viewMode } = useVisualizationStore();
   const [localText, setLocalText] = useState(inputText);
 
   const handleProcess = () => {
     if (!localText.trim()) return;
 
-    setInputText(localText);
-
     const { tokens, steps } = tokenizeWithSteps(localText);
-    setTokens(tokens);
-    setTokenizationSteps(steps);
-    setCurrentTokenizationStep(0);
-
     const embeddings = generateAllEmbeddings(tokens);
-    setEmbeddings(embeddings);
-
     const layers = generateAllLayers(tokens.length);
-    setTransformerLayers(layers);
 
-    setCurrentStage('tokenization');
+    update({
+      inputText: localText,
+      tokens,
+      tokenizationSteps: steps,
+      currentTokenizationStep: 0,
+      embeddings,
+      transformerLayers: layers,
+      currentStage: 'tokenization',
+    });
   };
 
   const handleSelectExample = (text: string) => {

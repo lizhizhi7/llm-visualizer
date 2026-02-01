@@ -7,7 +7,7 @@ interface HeaderProps {
 }
 
 export function Header({ onOpenSettings }: HeaderProps) {
-  const { viewMode, setViewMode } = useVisualizationStore();
+  const { viewMode, update } = useVisualizationStore();
   const { isConfigured, config } = useAPIStore();
 
   const viewModes: { value: ViewMode; label: string }[] = [
@@ -32,7 +32,7 @@ export function Header({ onOpenSettings }: HeaderProps) {
           {viewModes.map((mode) => (
             <button
               key={mode.value}
-              onClick={() => setViewMode(mode.value)}
+              onClick={() => update({ viewMode: mode.value })}
               className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                 viewMode === mode.value
                   ? 'bg-indigo-500 text-white'
